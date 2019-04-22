@@ -4,8 +4,8 @@ const chalk = require('chalk')
 const clear = require('clear')
 const figlet = require('figlet')
 const ask = require('./libs/questions.js')
-const argv = require('minimist')(process.argv.slice(2));
 const actions = require('./libs/actions.js');
+const program = require('commander');
 
 clear();
 
@@ -16,51 +16,61 @@ console.log(
 );
 
 const run = async () => {
-  if(argv['i'] || argv['interactive']){
-    await interactive(argv);
-  }else if(argv['help']){
-    showHelp();
-  }else{
-    await nonInteractive(argv);
+
+  program
+  .version('1.1.0')
+  .option('-H, --host <host>', 'Hostname [host:port]')
+  .option('-u, --user <user>', 'Username : password [user:pass]')
+  .option('-e, --execute <action>', 'Actions [activate, ]')
+  .option('-p, --path <path>', 'Content path')
+  .option('-f, --file', 'File path')
+  .option('-i, --interactive', 'Interactive mode')
+  .parse(process.argv);
+  
+  const option = getOption();
+  console.log(option);
+
+  if(program.interactive){
+    interactive(option);
+  } else{
+    nonInteractive(option);
   }
 }
 
-const showError = (msg) => {
+const showError = (msg, showHelp=true) => {
   console.log(
     chalk.bold.red(msg + '\n'),
-    chalk.blue('For help use -h or --help.')
   );
-}
-
-const showHelp = (callback) => {
-  help = {
-    'user:pass' : ['-u', '--user'],
-    'host:port' : ['-h', '--host'],
-    'content path' : ['-p', '--path'],
-    'file path' : ['-f', '--file'],
-    'action' : ['-a [actions] activate | deactivate | tree-activate']
-  };
-  console.log(
-    '-u | --user\tuser:pass',
-    '\n-h | --host\thost:port',
-    '\n-p | --path\tcontent path',
-    '\n-f | --file\tfile path',
-    '\n-a | --action\t actions'
-  );
-  if(callback){
-    callback();
+  if(showHelp){
+    program.help();
   }
+  
 }
 
-const nonInteractive = async (args) => {
-  const option = getOption(args);
-  console.log('option:', option);
+const nonInteractive = async (option) => {
+  const action = option['action']
+  if(!action){
+    showError('No Action Defined')
+    return;
+  }
+
+  if(!(action in actions['actions'])){
+    showError('Invalid Action', false); 
+    console.log(chalk.blue.bold( Object.keys(actions['actions']) ));
+    return;
+  }
+
+  for(const q of actions['actions'][action]['ask']){
+    if(!option[q]){
+      showError('Missing Param(s) : ' + q);
+      return;
+    }
+  }
   processAction(option);
 }
 
-const interactive = async (args) => {
-  const option = getOption(args);
-  
+const interactive = async (option) => {  
+  console.log('interavtive')
   if(!option['action']){
     const action = await askAction();
     if(!action || action == 'Exit'){
@@ -72,12 +82,10 @@ const interactive = async (args) => {
   }
 
   for(const action of option['action']){
-    if(action in actions['asks']){
-      for(const q of actions['asks'][action]){
-        if(!option[q]){
-          ans = await ask.prompt(ask['q'][q]);
-          option[q] = ans[q];
-        }
+    for(const q of actions['actions'][action]['ask']){
+      if(!option[q]){
+        ans = await ask.prompt(ask['q'][q]);
+        option[q] = ans[q];
       }
     }
   }
@@ -88,40 +96,39 @@ const interactive = async (args) => {
 
 const processAction = async (option) => {
   for(const action of option['action']){
-    if(action in actions['cmds']){
-      await actions['cmds'][action](option);
-    }else{
-      showError('Invalid Action')
-    }
+    await actions['actions'][action]['action'](option);
   }
 }
 
 
-const getOption = (args) => {
-
-  const option = {};
-  option['host'] = args['h'] || args['host'];
-  option['user'] = args['u'] || args['user'];
-  option['path'] = args['p'] || args['path'];
-  option['file'] = args['f'] || args['file'];
-
-  const user = args['u'] || args['user'] || args['username'];
-  if(user){
-    const user_pass = user.split(':');
+const getOption = () => {
+  const option = {}
+  if(program.user){
+    const user_pass = program.user.split(':');
     option['user'] = user_pass[0];
     option['pass'] = user_pass[1];
   }
-  
 
-  const action = args['a'] || args['action'];
-  if(action){
+  if(program.execute){
+    const action = program.execute
+    console.log(action);
     if(action.indexOf(',') > -1){
       option['action'] = action.split(',');
     }else{
       option['action'] = [action];
     }
   }
-  return option;
+
+  if(program.host){
+    option['host'] = program.host
+  }
+
+  if(program.path){
+    option['path'] = program.path
+  }
+
+  return option
+
 }
 
 const askAction = async () => {

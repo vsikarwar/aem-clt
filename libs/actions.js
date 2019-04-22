@@ -2,9 +2,18 @@ const request = require('./request.js');
 
 const cmds = {
     'activate' : request.activate,
-    'deactivate' : request.deactivate,
-    'tree-activate' : request.treeActivate,
-    'lock-page' : request.lockPage,
+    'deactivate' : request.deactivate
+}
+
+const actions = {
+    'activate' : {'action' : request.activate, 
+                  'ask' : ['user', 'pass', 'host', 'path']},
+    'deactivate' : {'action' : request.deactivate,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'tree-activate' : {'action' : request.treeActivate,
+                        'ask' : ['user', 'pass', 'host', 'path']},
+    'lock-page' : {'action' : request.lockPage,
+                    'ask' : ['user', 'pass', 'host', 'path']},
     'unlock-page' : '',
     'copy-page' : '',
     'create-rep-agent' : '',
@@ -56,7 +65,7 @@ const iactions = {
 
 
 module.exports = {
-     cmds,
+     actions,
      iactions,
-     asks,
+     cmds,
  }
