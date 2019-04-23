@@ -8,7 +8,9 @@
 
 ### Interactive mode
 > aem-clt -i
+
 or
+
 > aem-clt --interactive
 
 ### Command mode
