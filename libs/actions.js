@@ -1,10 +1,5 @@
 const request = require('./request.js');
 
-const cmds = {
-    'activate' : request.activate,
-    'deactivate' : request.deactivate
-}
-
 const actions = {
     'activate' : {'action' : request.activate, 
                   'ask' : ['user', 'pass', 'host', 'path']},
@@ -14,29 +9,38 @@ const actions = {
                         'ask' : ['user', 'pass', 'host', 'path']},
     'lock-page' : {'action' : request.lockPage,
                     'ask' : ['user', 'pass', 'host', 'path']},
-    'unlock-page' : '',
-    'copy-page' : '',
-    'create-rep-agent' : '',
-    'uninstall-bundle' : '',
-    'install-bundle' : '',
-    'build-bundle' : '',
-    'stop-bundle' : '',
-    'start-bundle' : '',
-    'upload-pkg' : '',
-    'install-pkg' : '',
-    'upload-install-pkg' : '',
-    'rebuild-existing-pkg' : '',
-    'download-pkg' : '',
-    'upload-no-install' : '',
-    'add-user': '',
-    'remove-user': ''
-}
-
-const asks = {
-    'activate' : ['user', 'pass', 'host', 'path'],
-    'deactivate' : ['user', 'pass', 'host', 'path'],
-    'tree-activate' : ['user', 'pass', 'host', 'path'],
-    'lock-page' : ['user', 'pass', 'host', 'path']
+    'unlock-page' : {'action': request.unlockPage,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'copy-page' : {'action': request.copyPage,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'create-rep-agent' : {'action': request.createRepAgent,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'uninstall-bundle' : {'action': request.uninstallBundle,
+                            'ask' : ['user', 'pass', 'host', 'path']},
+    'install-bundle' : {'action': request.installBundle,
+                        'ask' : ['user', 'pass', 'host', 'path']},
+    'build-bundle' : {'action': request.buildBundle,
+                        'ask' : ['user', 'pass', 'host', 'path']},
+    'stop-bundle' : {'action': request.stopBundle,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'start-bundle' : {'action': request.startBundle,
+                        'ask' : ['user', 'pass', 'host', 'path']},
+    'upload-pkg' : {'action': request.uploadPkg,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'install-pkg' : {'action': request.installPkg,
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'upload-install-pkg' : {'action': request.uploadInstallPkg,
+                            'ask' : ['user', 'pass', 'host', 'path']},
+    'rebuild-existing-pkg' : {'action': request.rebuildPkg,
+                                'ask' : ['user', 'pass', 'host', 'path']},
+    'download-pkg' : {'action': request.downloadPkg,
+                        'ask' : ['user', 'pass', 'host', 'path']},
+    'upload-no-install' : {'action': request.uploadNoInstallPkg,
+                            'ask' : ['user', 'pass', 'host', 'path']},
+    'add-user': {'action': request.addUser,
+                'ask' : ['user', 'pass', 'host', 'path']},
+    'remove-user': {'action': request.removeUser,
+                    'ask' : ['user', 'pass', 'host', 'path']}
 }
 
 const iactions = {
@@ -67,5 +71,4 @@ const iactions = {
 module.exports = {
      actions,
      iactions,
-     cmds,
  }

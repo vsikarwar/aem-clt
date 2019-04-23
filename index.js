@@ -28,7 +28,6 @@ const run = async () => {
   .parse(process.argv);
   
   const option = getOption();
-  console.log(option);
 
   if(program.interactive){
     interactive(option);
@@ -70,7 +69,6 @@ const nonInteractive = async (option) => {
 }
 
 const interactive = async (option) => {  
-  console.log('interavtive')
   if(!option['action']){
     const action = await askAction();
     if(!action || action == 'Exit'){
@@ -90,7 +88,6 @@ const interactive = async (option) => {
     }
   }
 
-  console.log(option);
   processAction(option);
 }
 
@@ -111,7 +108,6 @@ const getOption = () => {
 
   if(program.execute){
     const action = program.execute
-    console.log(action);
     if(action.indexOf(',') > -1){
       option['action'] = action.split(',');
     }else{

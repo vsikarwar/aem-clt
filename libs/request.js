@@ -3,8 +3,6 @@ const cheerio = require('cheerio');
 const chalk = require('chalk');
 
 
-const log = console.log;
-
 // List package content
 // curl -u admin:admin -X POST http://localhost:4502/crx/packmgr/service/console.html/etc/packages/my_packages/mycontent.zip?cmd=contents
 const list_pkg_content = (opt, data) => {
@@ -35,7 +33,7 @@ const list_pkg_content = (opt, data) => {
           const $ = cheerio.load(body);
           const arr = $('span').text().split(/-\s/);
           
-          log('Package : ',
+          console.log('Package : ',
               chalk.red(path)
           );
 
@@ -44,7 +42,7 @@ const list_pkg_content = (opt, data) => {
                   continue;
               }
               let value =  arr[key];
-            log("%o. %o", parseInt(key), value);
+              console.log("%o. %o", parseInt(key), value);
           }
     });
 }
@@ -72,7 +70,7 @@ const activate = (option) => {
             return console.error('upload failed:', err);
           }
         const $ = cheerio.load(body);
-        log(
+        console.log(
             chalk.blue(' [Activate] ' + $('#Message').text()),
             chalk.blue('Replicated successfully ' + $('#Status').text()),
         );
@@ -103,7 +101,7 @@ const deactivate = (option) => {
           }
         //console.log(body);
         const $ = cheerio.load(body);
-        log(
+        console.log(
             chalk.blue(' [Deactivate] ' + $('#Message').text()),
             chalk.blue('Replicated successfully ' + $('#Status').text()),
         );
@@ -134,9 +132,8 @@ const treeActivate = (option) => {
         if (err) {
             return console.error('upload failed:', err);
           }
-        console.log(body);
         const $ = cheerio.load(body);
-        log(
+        console.log(
             chalk.blue(' [Tree Activate] ' + $('#Message').text()),
             chalk.blue('Replicated successfully ' + $('#Status').text()),
         );
@@ -144,7 +141,7 @@ const treeActivate = (option) => {
 }
 
 //Pages => lock page
-const lockPage = (option) => {
+const page = (option, form) => {
     const auth = {
         'user': option['user'],
         'pass': option['pass'],
@@ -155,23 +152,135 @@ const lockPage = (option) => {
 
     const url = `http://${hostname}/bin/wcmcommand`;
 
+    request({url:url, method:'POST', auth:auth, form: form}, (err, res, body) =>{
+        if (err) {
+            return console.error('upload failed:', err);
+          }
+        const $ = cheerio.load(body);
+        console.log(
+            chalk.blue(' [Lock page] ' + $('#Message').text()),
+            chalk.blue('Lock page ' + $('#Status').text()),
+        );
+    });
+}
+
+const lockPage = (option) => {
     const form = {
         path: option['path'],
         cmd: 'lockPage',
         _charset_: 'utf-8'
+    };
+    page(option, form);
+}
+
+const unlockPage = (option) => {
+    const form = {
+        path: option['path'],
+        cmd: 'unlockPage',
+        _charset_: 'utf-8'
+    };
+    page(option, form);
+}
+
+const copyPage = (option) => {
+    const form = {
+        destParentPath: option['dest-path'],
+        srcPath: option['path'],
+        cmd: 'copyPage'
+    };
+    page(option, form)
+}
+
+const bundles = (option, form, url) => {
+    const auth = {
+        'user': option['user'],
+        'pass': option['pass'],
+        'sendImmediately': false
     };
 
     request({url:url, method:'POST', auth:auth, form: form}, (err, res, body) =>{
         if (err) {
             return console.error('upload failed:', err);
           }
-        console.log(body);
         const $ = cheerio.load(body);
-        log(
+        console.log(
             chalk.blue(' [Lock page] ' + $('#Message').text()),
             chalk.blue('Lock page ' + $('#Status').text()),
         );
     });
+}
+
+const uninstallBundle = (option) => {
+    const form = {
+        action: 'uninstall'
+    };
+    const hostname = option['host'];
+    const bundle = option['bundle'];
+
+    const url = `http://${hostname}/system/console/bundles/${bundle}`;
+    bundles(option, form, url);
+}
+
+const installBundle = (option) => {
+    const form = {
+        action: 'install',
+        bundlestartlevel: 20,
+        bundlefile: `@${option['bundle-name']}`
+    };
+
+    const hostname = option['host'];
+    const bundle = option['bundle'];
+
+    const url = `http://${hostname}/system/console/bundles`;
+    bundles(option, form, url);
+}
+
+const buildBundle = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const startBundle = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const stopBundle = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const createRepAgent = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const uploadPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const installPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const uploadInstallPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const rebuildPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const downloadPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const uploadNoInstallPkg = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const addUser = (option) => {
+    console.log('Implementation not found!!!');
+}
+
+const removeUser = (option) => {
+    console.log('Implementation not found!!!');
 }
 
 
@@ -181,4 +290,20 @@ module.exports = {
     deactivate,
     treeActivate,
     lockPage,
+    unlockPage,
+    copyPage,
+    uninstallBundle,
+    installBundle,
+    createRepAgent,
+    buildBundle,
+    startBundle,
+    stopBundle,
+    uploadPkg,
+    installPkg,
+    uploadInstallPkg,
+    rebuildPkg,
+    downloadPkg,
+    uploadNoInstallPkg,
+    addUser,
+    removeUser,
 }
