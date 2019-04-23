@@ -18,7 +18,7 @@ console.log(
 const run = async () => {
 
   program
-  .version('1.1.0')
+  .version('1.2.0')
   .option('-H, --host <host>', 'Hostname [host:port]')
   .option('-u, --user <user>', 'Username : password [user:pass]')
   .option('-e, --execute <action>', 'Actions [activate, ]')
