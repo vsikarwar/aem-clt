@@ -240,11 +240,27 @@ const buildBundle = (option) => {
 }
 
 const startBundle = (option) => {
-    console.log('Implementation not found!!!');
+    const form = {
+        action: 'start',
+    };
+
+    const hostname = option['host'];
+    const bundle = option['bundle'];
+
+    const url = `http://${hostname}/system/console/bundles/${bundle}`;
+    bundles(option, form, url);
 }
 
 const stopBundle = (option) => {
-    console.log('Implementation not found!!!');
+    const form = {
+        action: 'stop',
+    };
+
+    const hostname = option['host'];
+    const bundle = option['bundle'];
+
+    const url = `http://${hostname}/system/console/bundles/${bundle}`;
+    bundles(option, form, url);
 }
 
 const createRepAgent = (option) => {
