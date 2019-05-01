@@ -278,7 +278,36 @@ const uploadNoInstallPkg = (option) => {
 const addUser = (option) => {
     console.log('Implementation not found!!!');
 }
-
+const createUser =(option) => {
+    const auth = {
+        'user': option['user'],
+        'pass': option['pass'],
+        'sendImmediately': false
+    };
+    const newUserId = option['newUserId'];
+    hostname = option['host'];
+    const form = {
+        _charset_: 'utf-8',
+        'rep:userId': option['newUserId'],
+        givenName: option['firstName'],
+        familyName: option['lastName'],
+        email: option['email'],
+        'rep:password': option['newUserPass'],
+        intermediatePath:option['userPath'] 
+    };
+    const url = `http://${hostname}/libs/cq/security/authorizables/POST`;
+    request({url:url, method:'POST', auth:auth, form: form}, (err, res, body) =>{
+        if (err) {
+            return console.error('upload failed:', err);
+          }
+        const $ = cheerio.load(body);
+        console.log(
+            chalk.blue(' User ' + $('#Message').text()),
+            chalk.blue('Status ' + $('#Status').text()),
+        );
+    });
+    
+}
 const removeUser = (option) => {
     console.log('Implementation not found!!!');
 }
@@ -305,5 +334,6 @@ module.exports = {
     downloadPkg,
     uploadNoInstallPkg,
     addUser,
+    createUser,
     removeUser,
 }
