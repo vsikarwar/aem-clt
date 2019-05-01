@@ -298,7 +298,7 @@ const createUser =(option) => {
     const url = `http://${hostname}/libs/cq/security/authorizables/POST`;
     request({url:url, method:'POST', auth:auth, form: form}, (err, res, body) =>{
         if (err) {
-            return console.error('upload failed:', err);
+            return console.error('Request failed to create new user:', err);
           }
         const $ = cheerio.load(body);
         console.log(
