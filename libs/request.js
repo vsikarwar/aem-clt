@@ -203,6 +203,7 @@ const bundles = (option, form, url) => {
             return console.error('upload failed:', err);
           }
         const $ = cheerio.load(body);
+        console.log(body);
         console.log(
             chalk.blue(' [Lock page] ' + $('#Message').text()),
             chalk.blue('Lock page ' + $('#Status').text()),
@@ -225,11 +226,11 @@ const installBundle = (option) => {
     const form = {
         action: 'install',
         bundlestartlevel: 20,
-        bundlefile: `@${option['bundle-name']}`
+        bundlefile: `@'${option['bundle']}'`
     };
 
     const hostname = option['host'];
-    const bundle = option['bundle'];
+    //const bundle = option['bundle'];
 
     const url = `http://${hostname}/system/console/bundles`;
     bundles(option, form, url);

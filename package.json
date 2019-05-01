@@ -26,6 +26,10 @@
     "figlet": "^1.2.1",
     "inquirer": "^6.3.1",
     "minimist": "^1.2.0",
+    "node-inspect": "^1.11.5",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "inspect": "0.0.2"
   }
 }
