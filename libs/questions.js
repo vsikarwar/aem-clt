@@ -37,57 +37,6 @@ const q = {
       }
     }
   },
-  'newUserId' : {
-    name: 'newUserId',
-    type: 'input',
-    message: 'Enter User ID you want to create:',
-    validate: (value) => {
-      if(value.length){
-        return true;
-      }else{
-        return 'Enter User ID you want to create:';
-      }
-    }
-  },
-  'firstName' : {
-    name: 'firstName',
-    type: 'input',
-    message: 'Enter first Name:'
-  },
-  'lastName' : {
-    name: 'lastName',
-    type: 'input',
-    message: 'Enter Last Name:',
-    validate: (value) => {
-      if(value.length){
-        return true;
-      }else{
-        return 'Enter Last Name:';
-      }
-    }
-  },
-  'email' : {
-    name: 'email',
-    type: 'input',
-    message: 'Enter Email:'
-  },
-  'newUserPass' : {
-    name: 'newUserPass',
-    type: 'password',
-    message: 'Enter Password:',
-    validate: (value) => {
-      if(value.length){
-        return true;
-      }else{
-        return 'Enter Password:';
-      }
-    }
-  },
-  'userPath' : {
-    name: 'userPath',
-    type: 'input',
-    message: 'Enter path where you want user to exist:'
-  },
   'category' : [{
     name: 'category',
     type: 'list',
@@ -105,7 +54,7 @@ const q = {
     name: 'action',
     type: 'list',
     message: 'Select the Action',
-    choices: ['Create a User','Add User to a group', 'Remove user from a group', 'Back', 'Exit'],
+    choices: ['Add User to a group', 'Remove user from a group', 'Back', 'Exit'],
     validate: (value) => {
       if(value.length){
         return true;

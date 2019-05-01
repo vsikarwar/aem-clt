@@ -39,9 +39,6 @@ const actions = {
                             'ask' : ['user', 'pass', 'host', 'path']},
     'add-user': {'action': request.addUser,
                 'ask' : ['user', 'pass', 'host', 'path']},
-    'create-user': {'action': request.createUser,
-                'ask' : ['user', 'pass', 'host', 'newUserId','firstName',
-                'lastName','email','newUserPass','userPath']},           
     'remove-user': {'action': request.removeUser,
                     'ask' : ['user', 'pass', 'host', 'path']}
 }
@@ -66,7 +63,6 @@ const iactions = {
     'Download package' : 'download-pkg',
     'Force Upload without install' : 'upload-no-install',
     'Add User to a group' : 'add-user',
-    'Create a User':'create-user',
     'Remove user from a group' : 'remove-user'
 }
 
