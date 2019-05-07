@@ -283,6 +283,10 @@ const removeUser = (option) => {
     console.log('Implementation not found!!!');
 }
 
+const movePageorAsset = (option) => {
+    console.log('Implementation not found!!!');
+}
+
 
 module.exports = {
     list_pkg_content,
@@ -306,4 +310,5 @@ module.exports = {
     uploadNoInstallPkg,
     addUser,
     removeUser,
+    movePageorAsset
 }

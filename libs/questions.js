@@ -37,11 +37,64 @@ const q = {
       }
     }
   },
+  'movePath' : {
+    name: 'movePath',
+    type: 'input',
+    message: 'Enter Path of asset or Page you want to move',
+    validate: (value) => {
+      if(value.length){
+        return true;
+      }else{
+        return 'Please enter Path of asset or Page you want to move.';
+      }
+    }
+  },
+  'desPath' : {
+    name: 'desPath',
+    type: 'input',
+    message: 'Enter destination you want to move',
+    validate: (value) => {
+      if(value.length){
+        return true;
+      }else{
+        return 'Please Enter destination you want to move.';
+      }
+    }
+  },
+  'desName' : {
+    name: 'desName',
+    type: 'input',
+    message: 'Enter if you want to rename'
+  },
+  'adjustRef' : {
+    name: 'adjustRef',
+    type: 'input',
+    message: 'Enter if you want to adjust reference(true or false)',
+    validate: (value) => {
+      if(value == 'false' || value =='true'){
+        return true;
+      } else{
+        return 'Enter if you want to adjust reference(true or false)';
+      }
+    }
+  },
+  'publishRef' : {
+    name: 'publishRef',
+    type: 'input',
+    message: 'Enter if you want to publish references(true or false)',
+    validate: (value) => {
+      if(value == 'false' || value =='true'){
+        return true;
+      } else{
+        return 'Enter if you want to publish references(true or false)';
+      }
+    }
+  },
   'category' : [{
     name: 'category',
     type: 'list',
     message: 'Select the Category',
-    choices: ['Replication Action', 'Pages', 'Replication Agent', 'Bundles', 'Packages', 'User Admin', 'Exit'],
+    choices: ['Replication Action', 'Pages', 'Replication Agent', 'Bundles', 'Packages', 'User Admin','Move', 'Exit'],
     validate: (value) => {
       if(value.length){
         return true;
@@ -94,7 +147,7 @@ const q = {
     name: 'action',
     type: 'list',
     message: 'Select the Action',
-    choices: ['Lock Page', 'Unlock Page', 'Copy Page', 'Back', 'Exit'],
+    choices: ['Lock Page', 'Unlock Page', 'Copy Page','Move' ,'Back', 'Exit'],
     validate: (value) => {
       if(value.length){
         return true;
