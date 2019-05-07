@@ -164,48 +164,6 @@ const page = (option, form) => {
     });
 }
 
-const movePageorAsset = (option) => {
-    const auth = {
-        'user': option['user'],
-        'pass': option['pass'],
-        'sendImmediately': false
-    };
-    const movePath= option['movePath'];
-    const hostname = option['host'];
-    const url = `http://${hostname}/bin/wcm/heavymove?path=${movePath}&_charset_=utf-8`;
-    request({url:url, method:'GET', auth:auth}, (err, res, body) =>{
-        if (err) {
-            return console.error('upload failed:', err);
-          }  
-        move(option,res.body,auth,hostname);
-    });
-}
-
-const move = (option,json,auth,hostname)=>{
-    const adjustRef = option['adjustRef'];
-    const publishRef = option['publishRef'];
-    const form = {
-        destParentPath: option['desPath'],
-        '0_destName' : option['desName'],
-        srcPath : option['movePath'],
-        cmd: 'movePage',
-        _charset_: 'utf-8'
-    }; 
-
-    const url = `http://${hostname}/bin/wcmcommand`;
-    request({url:url, method:'POST', auth:auth,form: form}, (err, res, body) =>{
-        if (err) {
-            return console.error('upload failed:', err);
-          }
-          const $ = cheerio.load(body);
-          console.log(
-            chalk.blue(' [Move page] ' + $('#Message').text()),
-            chalk.blue('Move page ' + $('#Status').text()),
-        );
-    });
-}
-
-
 const lockPage = (option) => {
     const form = {
         path: option['path'],
@@ -324,6 +282,11 @@ const addUser = (option) => {
 const removeUser = (option) => {
     console.log('Implementation not found!!!');
 }
+
+const movePageorAsset = (option) => {
+    console.log('Implementation not found!!!');
+}
+
 
 module.exports = {
     list_pkg_content,
