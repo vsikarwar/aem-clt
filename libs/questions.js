@@ -13,6 +13,11 @@ const q = {
       }
     }
   }],
+  'port' : [{
+    name: 'port',
+    type: 'input',
+    message: 'AEM instance Port:',
+  }],
   'user' : {
     name: 'user',
     type: 'input',
@@ -94,7 +99,7 @@ const q = {
     name: 'category',
     type: 'list',
     message: 'Select the Category',
-    choices: ['Replication Action', 'Pages', 'Replication Agent', 'Bundles', 'Packages', 'User Admin','Move', 'Exit'],
+    choices: ['Replication Action', 'Pages', 'Replication Agent', 'Bundles', 'Packages', 'User Admin','Exit'],
     validate: (value) => {
       if(value.length){
         return true;

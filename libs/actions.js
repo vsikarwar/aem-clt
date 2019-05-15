@@ -42,7 +42,7 @@ const actions = {
     'remove-user': {'action': request.removeUser,
                     'ask' : ['user', 'pass', 'host', 'path']},
     'move-page': {'action': request.movePageorAsset,
-                    'ask' : ['user', 'pass','host','movePath', 'desPath','desName','adjustRef','publishRef']}                
+                    'ask' : ['user', 'pass','host','port','movePath', 'desPath','desName','adjustRef','publishRef']}                
 }
 
 const iactions = {
