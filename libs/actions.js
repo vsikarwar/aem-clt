@@ -66,7 +66,7 @@ const iactions = {
     'Force Upload without install' : 'upload-no-install',
     'Add User to a group' : 'add-user',
     'Remove user from a group' : 'remove-user',
-    'Move':'move-page'
+    'Move works for non published items':'move-page'
 }
 
 
