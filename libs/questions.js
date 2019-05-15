@@ -152,7 +152,7 @@ const q = {
     name: 'action',
     type: 'list',
     message: 'Select the Action',
-    choices: ['Lock Page', 'Unlock Page', 'Copy Page','Move' ,'Back', 'Exit'],
+    choices: ['Lock Page', 'Unlock Page', 'Copy Page','Move(Not works for Published pages and assets)' ,'Back', 'Exit'],
     validate: (value) => {
       if(value.length){
         return true;
