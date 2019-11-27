@@ -1,6 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const chalk = require('chalk');
+var FormData = require('form-data');
 
 
 // List package content
@@ -126,7 +127,7 @@ const treeActivate = (option) => {
         cmd: 'activate',
         ignoredeactivated: true,
         onlymodified: true
-    };
+        };
 
     request({url:url, method:'POST', auth:auth, form: form}, (err, res, body) =>{
         if (err) {
@@ -163,6 +164,74 @@ const page = (option, form) => {
         );
     });
 }
+
+const movePageorAsset = (option) => {
+    const auth = {
+        'user': option['user'],
+        'pass': option['pass'],
+        'sendImmediately': false
+    };
+    const movePath= option['movePath'];
+    let port="";
+    if(option['port'] == ""){
+        port = 80;        
+    }else{
+        port = option['port'];
+    }
+    const hostname = option['host'] +":"+ port;
+    const url = `http://${hostname}/bin/wcm/heavymove?path=${movePath}&_charset_=utf-8`;
+    request({url:url, method:'GET', auth:auth}, (err, res, body) =>{
+        if (err) {
+            return console.error('upload failed:', err);
+          }  
+        move(option,res.body,auth,option['host'],port);
+    });
+}
+
+const move = (option,json,auth,host,port)=>{
+    const adjustRef = option['adjustRef'];
+    const publishRef = option['publishRef'];
+    //const form;
+    var jsonRes= JSON.parse(json);
+    const totalPages= jsonRes['totalPages'];
+    const pagesArr=jsonRes['pages'];
+    //console.log(json);
+    //console.log(totalPages);
+    //console.log(pagesArr);
+    var form = new FormData();
+    
+        form.append('destParentPath', option['desPath']);
+        form.append('0_destName' , option['desName']);
+        form.append('srcPath' , option['movePath']);
+        form.append('cmd', 'movePage');
+        form.append('_charset_', 'utf-8');
+        form.append('intergrity','true');
+         
+    for(var i=0 ; i < totalPages -1 ; i++){
+        if(pagesArr[i]['adjustable'] == true){
+           form.append('0_adjust',pagesArr[i]['path']);
+        } 
+    }
+    //const url = `http://${hostname}/bin/wcmcommand`;
+    form.submit({
+        method: 'post',  
+        host: host,
+        port: port,
+        path: '/bin/wcmcommand',
+        auth: 'admin:admin'
+        }, function(err, res,body) {
+        if (err) {
+            return console.error('upload failed:', err);
+        }
+        if(res.statusCode=='200'){
+            console.log("Asset is been moved");
+        }else{
+            console.log(res.statusMessage);
+            console.log(res.statusCode);
+        }
+        });   
+}
+
 
 const lockPage = (option) => {
     const form = {
@@ -283,7 +352,6 @@ const removeUser = (option) => {
     console.log('Implementation not found!!!');
 }
 
-
 module.exports = {
     list_pkg_content,
     activate,
@@ -306,4 +374,5 @@ module.exports = {
     uploadNoInstallPkg,
     addUser,
     removeUser,
+    movePageorAsset
 }

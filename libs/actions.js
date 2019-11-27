@@ -40,7 +40,9 @@ const actions = {
     'add-user': {'action': request.addUser,
                 'ask' : ['user', 'pass', 'host', 'path']},
     'remove-user': {'action': request.removeUser,
-                    'ask' : ['user', 'pass', 'host', 'path']}
+                    'ask' : ['user', 'pass', 'host', 'path']},
+    'move-page': {'action': request.movePageorAsset,
+                    'ask' : ['user', 'pass','host','port','movePath', 'desPath','desName','adjustRef','publishRef']}                
 }
 
 const iactions = {
@@ -63,7 +65,8 @@ const iactions = {
     'Download package' : 'download-pkg',
     'Force Upload without install' : 'upload-no-install',
     'Add User to a group' : 'add-user',
-    'Remove user from a group' : 'remove-user'
+    'Remove user from a group' : 'remove-user',
+    'Move works for non published items':'move-page'
 }
 
 
