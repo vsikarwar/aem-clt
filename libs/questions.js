@@ -198,6 +198,18 @@ const q = {
         return 'Enter Path';
       }
     }
+  },
+  'bundle' : {
+    name: 'bundle',
+    type: 'input',
+    message: 'Bundle Name(PID)',
+    validate: (value) => {
+      if(value.length){
+        return true;
+      }else{
+        return 'Enter Bundle Name(PID)';
+      }
+    }
   }
 }
 

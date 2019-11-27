@@ -16,5 +16,8 @@ or
 ### Command mode
 
 > aem-clt -H host:port -u user:pass -p content-path -e action
-  
+
+
+### Run locally for testing
+node index.js -i
   
